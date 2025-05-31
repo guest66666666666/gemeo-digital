@@ -1,5 +1,5 @@
 import streamlit as st
-import openai
+from openai import OpenAI
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 from datetime import datetime
@@ -28,15 +28,20 @@ if st.button("Gerar resposta como 'eu'"):
     else:
         with st.spinner("Gerando resposta..."):
             prompt = f"Você é {st.secrets['persona_nome']}, responda essa mensagem de forma coerente com seu estilo, valores e histórico:\n\n{mensagem_recebida}"
-            resposta_ia = openai.ChatCompletion.create(
+            
+            # ✅ chamada nova da API OpenAI
+            import openai
+            client = openai.OpenAI(api_key=st.secrets["OPENAI_API_KEY"])
+            response = client.chat.completions.create(
                 model="gpt-4",
                 messages=[{"role": "user", "content": prompt}],
                 max_tokens=500
-            )["choices"][0]["message"]["content"]
+            )
+            resposta_ia = response.choices[0].message.content
 
+        # exibir a resposta após a geração
         st.subheader("2️⃣ Resposta da IA (simulando você)")
         st.text_area("Resposta da IA", value=resposta_ia, height=200, key="resposta_ia")
-
         st.subheader("3️⃣ Avaliação da resposta")
         nota = st.slider("Nota para a resposta da IA (0-10)", 0, 10, 5)
         resposta_real = st.text_area("Sua resposta real à mensagem", height=150)
