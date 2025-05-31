@@ -7,7 +7,6 @@ from datetime import datetime
 # ========== CONFIGURAÇÕES ==========
 
 # Substitua pela sua chave da OpenAI
-openai.api_key = st.secrets["OPENAI_API_KEY"]
 
 # Configurações para conectar ao Google Sheets
 scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
