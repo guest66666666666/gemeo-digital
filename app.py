@@ -32,7 +32,7 @@ if st.button("Gerar resposta como 'eu'"):
             import openai
             client = openai.OpenAI(api_key=st.secrets["OPENAI_API_KEY"])
             response = client.chat.completions.create(
-                model="gpt-4",
+                model="gpt-4-0125-preview",
                 messages=[{"role": "user", "content": prompt}],
                 max_tokens=500
             )
